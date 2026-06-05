@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  formula:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check formula style
+        run: brew style ./Formula/aislop.rb
+      - name: Tap local checkout
+        run: brew tap scanaislop/tap "$GITHUB_WORKSPACE"
+      - name: Install formula
+        run: brew install scanaislop/tap/aislop
+      - name: Test formula
+        run: brew test scanaislop/tap/aislop
