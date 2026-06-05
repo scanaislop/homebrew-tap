@@ -1,128 +1,157 @@
-# aislop Homebrew tap
+# aislop for Homebrew
 
-Homebrew tap for installing the `aislop` CLI.
+**Catch the slop AI coding agents leave in your code.**
 
-This tap installs the published release for the matching version. It exposes:
+[![Homebrew tap](https://img.shields.io/badge/Homebrew-scanaislop%2Ftap-2f855a.svg)](https://github.com/scanaislop/homebrew-tap)
+[![npm downloads](https://img.shields.io/npm/dm/aislop.svg)](https://www.npmjs.com/package/aislop)
+[![PyPI downloads](https://img.shields.io/pepy/dt/aislop.svg?label=PyPI%20downloads)](https://pepy.tech/project/aislop)
+[![GitHub stars](https://img.shields.io/github/stars/scanaislop/aislop.svg?label=GitHub%20stars)](https://github.com/scanaislop/aislop)
+[![CI](https://github.com/scanaislop/homebrew-tap/actions/workflows/ci.yml/badge.svg)](https://github.com/scanaislop/homebrew-tap/actions/workflows/ci.yml)
+[![aislop score](https://badges.scanaislop.com/score/scanaislop/aislop.svg)](https://scanaislop.com/scanaislop/aislop)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-- `aislop`
-- `aislop-mcp`
+The patterns Claude Code, Cursor, Codex, and OpenCode leave behind: narrative comments above self-explanatory code, swallowed exceptions, `as any` casts, hallucinated imports, duplicated helpers, dead code, todo stubs, oversized functions. Tests pass. Lint passes. The code rots anyway.
+
+[aislop](https://github.com/scanaislop/aislop) catches them. 50+ rules across 8 language targets (TypeScript, JavaScript, Expo / React Native, Python, Go, Rust, Ruby, PHP). Scores every change 0–100. Sub-second. Deterministic — no LLM in the runtime path, same code in, same score out. MIT-licensed, free CLI.
+
+> This tap is the Homebrew distribution of `aislop`. The CLI is identical across every channel. Prefer npm or Python tooling? See [other ways to install](#other-ways-to-install).
 
 ## Install
 
-Private install while this repo is private:
-
 ```sh
-brew tap scanaislop/tap git@github.com:scanaislop/homebrew-tap.git
 brew install scanaislop/tap/aislop
 ```
 
-Local checkout install for testing formula changes:
-
-```sh
-brew tap scanaislop/tap "$(pwd)"
-brew install scanaislop/tap/aislop
-```
-
-Public install after the repo is made public:
+That one-liner taps the repo and installs in a single step. The longer form is equivalent:
 
 ```sh
 brew tap scanaislop/tap
 brew install aislop
 ```
 
-## Use
+Then scan any project:
 
 ```sh
 aislop scan
-aislop fix
-aislop ci
-aislop-mcp
 ```
 
-Homebrew installs Node.js as a dependency if needed.
+## First run
 
-## Versioning Model
+From the root of a repo:
 
-Homebrew formulae should not install `latest`. A formula pins:
+```sh
+aislop scan
+```
 
-- the exact source tarball URL
-- the SHA-256 checksum for that tarball
-- the dependency list needed to run it
+You get a single 0–100 score and a list of findings. Common next steps:
 
-That is why `Formula/aislop.rb` points at a specific release tarball such as `aislop-0.10.2.tgz`.
+```sh
+aislop fix                   # auto-fix safe issues
+aislop fix -f                # aggressive fixes (deps, unused files)
+aislop ci                    # CI-friendly JSON output and exit code
+aislop hook install --claude # install a per-edit agent hook
+aislop rules                 # see every rule
+aislop doctor                # check local tool availability
+```
 
-Users still get newer versions through the normal Homebrew flow after this tap is updated:
+## What gets installed
+
+This tap exposes two commands:
+
+- `aislop` — the CLI
+- `aislop-mcp` — the MCP server, for tools that speak [Model Context Protocol](#mcp-server)
+
+Homebrew installs Node.js as a runtime dependency if it is not already present, so there is nothing else to set up. Run `aislop doctor` to confirm every engine can run on your machine.
+
+## Hand off to your agent
+
+When auto-fix can't solve an issue, pass the remaining findings to your coding agent with full context:
+
+```sh
+aislop fix --claude          # Claude Code
+aislop fix --codex           # Codex CLI
+aislop fix --cursor          # Cursor (copies to clipboard)
+aislop fix --gemini          # Gemini CLI
+aislop fix --prompt          # print an agent-agnostic prompt
+```
+
+Install a hook so feedback flows back after every edit:
+
+```sh
+aislop hook install --claude # Claude Code
+aislop hook install          # pick agents interactively
+```
+
+## MCP server
+
+Expose `aislop` as MCP tools (`aislop_scan`, `aislop_fix`, `aislop_why`, `aislop_baseline`) for Claude Desktop, Cursor, or Codex:
+
+```jsonc
+{
+  "mcpServers": {
+    "aislop": {
+      "command": "aislop-mcp"
+    }
+  }
+}
+```
+
+## CI
+
+```sh
+aislop scan --staged              # staged files before commit
+aislop ci                         # JSON output, exits 1 if score < threshold
+aislop scan --sarif > aislop.sarif # SARIF 2.1.0 for GitHub code scanning
+```
+
+Set a minimum score in `.aislop/config.yml`:
+
+```yaml
+ci:
+  failBelow: 70
+```
+
+More: [CI/CD docs](https://scanaislop.com/docs/ci).
+
+## Configure
+
+Tune rules, severities, and excluded paths in `.aislop/config.yml`:
+
+```yaml
+exclude:
+  - "**/*.test.ts"
+  - src/generated
+rules:
+  ai-slop/narrative-comment: warning   # error | warning | off
+```
+
+Run `aislop init` to scaffold one. Full reference: [configuration docs](https://scanaislop.com/docs/configuration).
+
+## Upgrade
 
 ```sh
 brew update
 brew upgrade aislop
 ```
 
-They can also run `aislop upgrade` to check whether a newer release is available.
-
-## Upgrade Users
-
-After the formula is updated and pushed:
+Check whether a newer release is available:
 
 ```sh
-brew update
-brew upgrade aislop
+aislop upgrade
 ```
 
-For private installs, users may need:
+## Examples
 
 ```sh
-brew update-reset scanaislop/tap
-brew upgrade scanaislop/tap/aislop
-```
-
-Users can run `aislop upgrade` at any time to check whether a newer release is available.
-
-## Update The Formula
-
-Run this after a new `aislop` version is published:
-
-```sh
-scripts/update-formula.sh 0.10.3
-```
-
-Then validate:
-
-```sh
-brew style ./Formula/aislop.rb
-brew untap scanaislop/tap
-brew tap scanaislop/tap "$(pwd)"
-brew reinstall scanaislop/tap/aislop
-brew test scanaislop/tap/aislop
-```
-
-Commit and push:
-
-```sh
-git add Formula/aislop.rb
-git commit -m "Update aislop to 0.10.3"
-git push
-```
-
-## Public Launch
-
-When ready:
-
-1. Change `scanaislop/homebrew-tap` visibility from private to public.
-2. Keep the repo name as `homebrew-tap`; that maps to `brew tap scanaislop/tap`.
-3. Verify from a clean machine:
-
-```sh
-brew tap scanaislop/tap
-brew install aislop
-aislop --version
+aislop scan --changes         # only changed files from HEAD
+aislop scan --staged          # staged files before commit
+aislop scan --sarif > aislop.sarif  # SARIF for GitHub code scanning
+aislop badge                  # generate a public score badge
 ```
 
 ## Troubleshooting
 
-If `brew install` succeeds but linking fails because `/opt/homebrew/bin/aislop` already exists, the user already has another `aislop` install. They should remove the older install or choose one install source.
-
-Or overwrite the existing symlinks intentionally:
+If Homebrew says `/opt/homebrew/bin/aislop` already exists, another install already owns the command. Choose one install source, or let Homebrew overwrite the existing link:
 
 ```sh
 brew link --overwrite aislop
@@ -134,3 +163,33 @@ Check what Homebrew installed:
 brew info scanaislop/tap/aislop
 brew list scanaislop/tap/aislop
 ```
+
+Reinstall from scratch if a release looks wrong:
+
+```sh
+brew reinstall aislop
+```
+
+## Other ways to install
+
+The same CLI ships through three channels:
+
+```sh
+brew install scanaislop/tap/aislop   # Homebrew (this tap)
+pipx install aislop           # Python
+npx aislop@latest scan        # npm / Node (no install)
+```
+
+See the [PyPI package](https://pypi.org/project/aislop/) and the [main project README](https://github.com/scanaislop/aislop) for the npm-family options.
+
+## For teams
+
+[scanaislop](https://scanaislop.com) is the hosted platform for teams: PR gates with score thresholds, an org → team → project standards hierarchy, dashboards, and agent attribution. Same engines, same scores. The CLI is MIT-licensed and free.
+
+## Links
+
+- Main project: https://github.com/scanaislop/aislop
+- Docs: https://scanaislop.com/docs
+- Issues: https://github.com/scanaislop/aislop/issues
+- Homebrew tap: https://github.com/scanaislop/homebrew-tap
+- PyPI package: https://pypi.org/project/aislop/
