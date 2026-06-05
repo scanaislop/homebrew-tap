@@ -58,6 +58,8 @@ brew update
 brew upgrade aislop
 ```
 
+They can also run `aislop upgrade` to check the latest npm release and see the direct npm upgrade command.
+
 ## Upgrade Users
 
 After the formula is updated and pushed:
@@ -73,6 +75,8 @@ For private installs, users may need:
 brew update-reset scanaislop/tap
 brew upgrade scanaislop/tap/aislop
 ```
+
+Users can run `aislop upgrade` at any time to check whether a newer npm release is available.
 
 ## Update The Formula
 
