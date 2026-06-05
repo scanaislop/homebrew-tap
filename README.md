@@ -1,24 +1,120 @@
-# homebrew-tap
+# aislop Homebrew tap
 
-Private Homebrew tap for aislop while distribution is being prepared.
+Homebrew tap for installing the npm-published `aislop` CLI.
 
-Private install:
+This tap installs the published npm tarball for the matching version. It exposes both commands shipped by the npm package:
+
+- `aislop`
+- `aislop-mcp`
+
+## Install
+
+Private install while this repo is private:
 
 ```sh
 brew tap scanaislop/tap git@github.com:scanaislop/homebrew-tap.git
 brew install scanaislop/tap/aislop
 ```
 
-Public install, once the repository is public:
+Local checkout install for testing formula changes:
+
+```sh
+brew tap scanaislop/tap "$(pwd)"
+brew install scanaislop/tap/aislop
+```
+
+Public install after the repo is made public:
 
 ```sh
 brew tap scanaislop/tap
 brew install aislop
 ```
 
-Until the repository is public, install from the checked-out tap:
+## Use
 
 ```sh
+aislop scan
+aislop fix
+aislop ci
+aislop-mcp
+```
+
+Homebrew installs Node.js as a dependency if needed.
+
+## Upgrade Users
+
+After the formula is updated and pushed:
+
+```sh
+brew update
+brew upgrade aislop
+```
+
+For private installs, users may need:
+
+```sh
+brew update-reset scanaislop/tap
+brew upgrade scanaislop/tap/aislop
+```
+
+## Update The Formula
+
+Run this after a new `aislop` version is published to npm:
+
+```sh
+scripts/update-formula.sh 0.10.3
+```
+
+Then validate:
+
+```sh
+brew style ./Formula/aislop.rb
+brew untap scanaislop/tap
 brew tap scanaislop/tap "$(pwd)"
-brew install scanaislop/tap/aislop
+brew reinstall scanaislop/tap/aislop
+brew test scanaislop/tap/aislop
+```
+
+Commit and push:
+
+```sh
+git add Formula/aislop.rb
+git commit -m "Update aislop to 0.10.3"
+git push
+```
+
+## Public Launch
+
+When ready:
+
+1. Change `scanaislop/homebrew-tap` visibility from private to public.
+2. Keep the repo name as `homebrew-tap`; that maps to `brew tap scanaislop/tap`.
+3. Verify from a clean machine:
+
+```sh
+brew tap scanaislop/tap
+brew install aislop
+aislop --version
+```
+
+## Troubleshooting
+
+If `brew install` succeeds but linking fails because `/opt/homebrew/bin/aislop` already exists, the user already has a global npm install. They should choose one install source:
+
+```sh
+npm uninstall -g aislop
+brew link aislop
+```
+
+Or overwrite the existing symlinks intentionally:
+
+```sh
+brew link --overwrite aislop
+```
+
+Check what Homebrew installed:
+
+```sh
+brew info scanaislop/tap/aislop
+brew list scanaislop/tap/aislop
 ```
