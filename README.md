@@ -1,8 +1,8 @@
 # aislop Homebrew tap
 
-Homebrew tap for installing the npm-published `aislop` CLI.
+Homebrew tap for installing the `aislop` CLI.
 
-This tap installs the published npm tarball for the matching version. It exposes both commands shipped by the npm package:
+This tap installs the published release for the matching version. It exposes:
 
 - `aislop`
 - `aislop-mcp`
@@ -49,7 +49,7 @@ Homebrew formulae should not install `latest`. A formula pins:
 - the SHA-256 checksum for that tarball
 - the dependency list needed to run it
 
-That is why `Formula/aislop.rb` points at a specific npm tarball such as `aislop-0.10.2.tgz`.
+That is why `Formula/aislop.rb` points at a specific release tarball such as `aislop-0.10.2.tgz`.
 
 Users still get newer versions through the normal Homebrew flow after this tap is updated:
 
@@ -58,7 +58,7 @@ brew update
 brew upgrade aislop
 ```
 
-They can also run `aislop upgrade` to check the latest npm release and see the direct npm upgrade command.
+They can also run `aislop upgrade` to check whether a newer release is available.
 
 ## Upgrade Users
 
@@ -76,11 +76,11 @@ brew update-reset scanaislop/tap
 brew upgrade scanaislop/tap/aislop
 ```
 
-Users can run `aislop upgrade` at any time to check whether a newer npm release is available.
+Users can run `aislop upgrade` at any time to check whether a newer release is available.
 
 ## Update The Formula
 
-Run this after a new `aislop` version is published to npm:
+Run this after a new `aislop` version is published:
 
 ```sh
 scripts/update-formula.sh 0.10.3
@@ -120,12 +120,7 @@ aislop --version
 
 ## Troubleshooting
 
-If `brew install` succeeds but linking fails because `/opt/homebrew/bin/aislop` already exists, the user already has a global npm install. They should choose one install source:
-
-```sh
-npm uninstall -g aislop
-brew link aislop
-```
+If `brew install` succeeds but linking fails because `/opt/homebrew/bin/aislop` already exists, the user already has another `aislop` install. They should remove the older install or choose one install source.
 
 Or overwrite the existing symlinks intentionally:
 
