@@ -41,6 +41,23 @@ aislop-mcp
 
 Homebrew installs Node.js as a dependency if needed.
 
+## Versioning Model
+
+Homebrew formulae should not install `latest`. A formula pins:
+
+- the exact source tarball URL
+- the SHA-256 checksum for that tarball
+- the dependency list needed to run it
+
+That is why `Formula/aislop.rb` points at a specific npm tarball such as `aislop-0.10.2.tgz`.
+
+Users still get newer versions through the normal Homebrew flow after this tap is updated:
+
+```sh
+brew update
+brew upgrade aislop
+```
+
 ## Upgrade Users
 
 After the formula is updated and pushed:
