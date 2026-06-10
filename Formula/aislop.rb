@@ -14,6 +14,6 @@ class Aislop < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/aislop --version")
-    assert_match "Usage:", shell_output("#{bin}/aislop --help")
+    assert_match "aislop scan", shell_output("#{bin}/aislop --help")
   end
 end
