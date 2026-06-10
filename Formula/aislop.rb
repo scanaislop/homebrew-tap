@@ -1,8 +1,8 @@
 class Aislop < Formula
   desc "Scan your code for AI slop"
   homepage "https://scanaislop.com"
-  url "https://registry.npmjs.org/aislop/-/aislop-0.11.0.tgz"
-  sha256 "dd8a9bd24d60548cdce63e06de6f790a9a361b805862ac39bc02f3ded3126954"
+  url "https://registry.npmjs.org/aislop/-/aislop-0.12.0.tgz"
+  sha256 "6a762e064260e3cbc55368479cd715054c25b48922cd8cac2d1443b9c09a9811"
   license "MIT"
 
   depends_on "node"
@@ -14,6 +14,6 @@ class Aislop < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/aislop --version")
-    assert_match "Usage:", shell_output("#{bin}/aislop --help")
+    assert_match "aislop scan", shell_output("#{bin}/aislop --help")
   end
 end
