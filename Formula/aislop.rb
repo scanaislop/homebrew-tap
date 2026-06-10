@@ -2,7 +2,7 @@ class Aislop < Formula
   desc "Scan your code for AI slop"
   homepage "https://scanaislop.com"
   url "https://registry.npmjs.org/aislop/-/aislop-0.12.0.tgz"
-  sha256 "565415f5fac26e670d9022d606e20163b9fef69ebccc77eab35b95a6985d450f"
+  sha256 "ceb6bb564e7d66217d9e2aa805ad49030adebbbb76c8e2c04f185c8dfa1f8cff"
   license "MIT"
 
   depends_on "node"
