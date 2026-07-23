@@ -176,6 +176,8 @@ bun add -g aislop                    # Bun
 pipx install aislop                  # Python
 ```
 
+The Homebrew formula installs Ruff and golangci-lint as runtime dependencies, preserving Python and Go lint coverage without a separate tool-setup command.
+
 See the [PyPI package](https://pypi.org/project/aislop/) and the [main project README](https://github.com/scanaislop/aislop) for the npm-family options.
 
 ## For teams
