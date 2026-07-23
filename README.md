@@ -184,6 +184,7 @@ See the [PyPI package](https://pypi.org/project/aislop/) and the [main project R
 
 ## Links
 
+- Discord community: https://discord.gg/Mzz4A6mfj6
 - Main project: https://github.com/scanaislop/aislop
 - Docs: https://scanaislop.com/docs
 - Issues: https://github.com/scanaislop/aislop/issues
