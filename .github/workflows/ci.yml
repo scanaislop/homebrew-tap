@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check formula style
         run: brew style ./Formula/aislop.rb
+      - name: Check release helper resets formula revision
+        run: scripts/test-update-formula.sh
       - name: Tap local checkout
         run: brew tap scanaislop/tap "$GITHUB_WORKSPACE"
       - name: Install formula
