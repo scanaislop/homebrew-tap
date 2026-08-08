@@ -4,9 +4,9 @@
 
 [![Homebrew tap](https://img.shields.io/badge/Homebrew-scanaislop%2Ftap-2f855a.svg)](https://github.com/scanaislop/homebrew-tap) [![npm downloads](https://img.shields.io/npm/dm/aislop.svg)](https://www.npmjs.com/package/aislop) [![PyPI downloads](https://img.shields.io/pepy/dt/aislop.svg?label=PyPI%20downloads)](https://pepy.tech/project/aislop) [![GitHub stars](https://img.shields.io/github/stars/scanaislop/aislop.svg?label=GitHub%20stars)](https://github.com/scanaislop/aislop) [![CI](https://github.com/scanaislop/homebrew-tap/actions/workflows/ci.yml/badge.svg)](https://github.com/scanaislop/homebrew-tap/actions/workflows/ci.yml) [![aislop score](https://badges.scanaislop.com/score/scanaislop/aislop.svg)](https://scanaislop.com/scanaislop/aislop) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/Mzz4A6mfj6)
 
-The patterns Claude Code, Cursor, Codex, and OpenCode leave behind: narrative comments above self-explanatory code, swallowed exceptions, `as any` casts, hallucinated imports, duplicated helpers, dead code, todo stubs, oversized functions. Tests pass. Lint passes. The code rots anyway.
+The patterns Claude Code, Cursor, Codex, and OpenCode leave behind: narrative comments above self-explanatory code, swallowed exceptions, hidden fallbacks, `as any` casts, hallucinated imports, duplicated helpers, dead code, todo stubs, oversized functions. Tests pass. Lint passes. The code rots anyway.
 
-[aislop](https://github.com/scanaislop/aislop) catches them. 50+ rules across 8 language targets (TypeScript, JavaScript, Expo / React Native, Python, Go, Rust, Ruby, PHP). Scores every change 0–100. Sub-second. Deterministic — no LLM in the runtime path, same code in, same score out. MIT-licensed, free CLI.
+[aislop](https://github.com/scanaislop/aislop) catches them. 50+ rules across 10 language targets (TypeScript, JavaScript, Expo / React Native, Python, Go, Rust, Ruby, PHP, C#, C/C++). Scores every change 0–100. Sub-second. Deterministic — no LLM in the runtime path, same code in, same score out. MIT-licensed, free CLI.
 
 > This tap is the Homebrew distribution of `aislop`. The CLI is identical across every channel. Prefer npm or Python tooling? See [other ways to install](#other-ways-to-install).
 
@@ -177,6 +177,23 @@ pipx install aislop                  # Python
 ```
 
 The Homebrew formula installs Ruff and golangci-lint as runtime dependencies, preserving Python and Go lint coverage without a separate tool-setup command.
+
+C# and C/C++ receive built-in text and complexity checks without extra tools. Install the optional system toolchains for project-aware and deeper checks:
+
+```sh
+brew install cppcheck llvm
+brew install --cask dotnet-sdk
+```
+
+C# project evaluation is opt-in for repositories you trust:
+
+```yaml
+lint:
+  csharp:
+    projectEvaluation: true
+```
+
+Run `aislop doctor` inside a project to see which checks are available.
 
 See the [PyPI package](https://pypi.org/project/aislop/) and the [main project README](https://github.com/scanaislop/aislop) for the npm-family options.
 
