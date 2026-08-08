@@ -13,7 +13,7 @@ jobs:
   formula:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Check formula style
         run: brew style ./Formula/aislop.rb
       - name: Check release helper resets formula revision
