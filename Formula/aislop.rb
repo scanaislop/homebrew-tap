@@ -1,8 +1,8 @@
 class Aislop < Formula
   desc "Scan your code for AI slop"
   homepage "https://scanaislop.com"
-  url "https://registry.npmjs.org/aislop/-/aislop-0.20.1.tgz"
-  sha256 "f99e5e064bed33b9877743567a86a5aa5d68d8fefd68188ea7843c1801a900fd"
+  url "https://registry.npmjs.org/aislop/-/aislop-0.21.0.tgz"
+  sha256 "c9798dc038f6c6333c3c2a9cddc29a5e2b555c7aad2ec09f8f428fe0be4dbf65"
   license "MIT"
 
   depends_on "golangci-lint"
