@@ -18,6 +18,8 @@ class Aislop < Formula
     assert_match version.to_s, shell_output("#{bin}/aislop --version")
     assert_match "aislop scan", shell_output("#{bin}/aislop --help")
     assert_predicate formula_opt_bin("golangci-lint")/"golangci-lint", :executable?
-    assert_predicate formula_opt_bin("ruff")/"ruff", :executable?
+    (testpath/"example.py").write("import os\n\nprint(42)\n")
+    system bin/"aislop", "fix", testpath
+    refute_match "import os", (testpath/"example.py").read
   end
 end
