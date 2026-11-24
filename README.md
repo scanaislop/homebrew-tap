@@ -6,7 +6,9 @@
 
 The patterns Claude Code, Cursor, Codex, and OpenCode leave behind: narrative comments above self-explanatory code, swallowed exceptions, hidden fallbacks, `as any` casts, hallucinated imports, duplicated helpers, dead code, todo stubs, oversized functions. Tests pass. Lint passes. The code rots anyway.
 
-[aislop](https://github.com/scanaislop/aislop) catches them. 50+ rules across 10 language targets (TypeScript, JavaScript, Expo / React Native, Python, Go, Rust, Ruby, PHP, C#, C/C++). Scores every change 0–100. Sub-second. Deterministic — no LLM in the runtime path, same code in, same score out. MIT-licensed, free CLI.
+[aislop](https://github.com/scanaislop/aislop) catches them. 50+ rules across 12 language targets (TypeScript, JavaScript, Expo / React Native, Python, Go, Rust, Ruby, PHP, Java, Scala (beta), C#, C/C++). Scores every change 0–100. Sub-second. Deterministic: no LLM in the runtime path, same code in, same score out. MIT-licensed, free CLI.
+
+Scala support is in beta. Coverage and accuracy are still being refined; Scala 3 indentation-based syntax and real-world scalafmt integration remain ongoing work.
 
 > This tap is the Homebrew distribution of `aislop`. The CLI is identical across every channel. Prefer npm or Python tooling? See [other ways to install](#other-ways-to-install).
 
@@ -172,11 +174,12 @@ The same CLI is also available on npm, Yarn, Bun, and PyPI:
 brew install scanaislop/tap/aislop   # Homebrew (this tap)
 npm install -g aislop                # npm
 yarn dlx aislop scan                 # Yarn (no install)
+bunx aislop scan                     # Bun (no install)
 bun add -g aislop                    # Bun
 pipx install aislop                  # Python
 ```
 
-The Homebrew formula installs Ruff and golangci-lint as runtime dependencies, preserving Python and Go lint coverage without a separate tool-setup command.
+The Homebrew formula includes the packaged Python engine and installs golangci-lint for Go lint coverage.
 
 C# and C/C++ receive built-in text and complexity checks without extra tools. Install the optional system toolchains for project-aware and deeper checks:
 

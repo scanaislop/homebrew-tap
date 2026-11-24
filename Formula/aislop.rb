@@ -1,13 +1,12 @@
 class Aislop < Formula
   desc "Scan your code for AI slop"
   homepage "https://scanaislop.com"
-  url "https://registry.npmjs.org/aislop/-/aislop-0.14.1.tgz"
-  sha256 "ff91f5304da5435ad2d9535c4c43f7bf2727d918d99d944a0b31617b9ba94494"
+  url "https://registry.npmjs.org/aislop/-/aislop-0.23.0.tgz"
+  sha256 "18171169b7ce7792fc2436f628f9b478c203071f07b6fe602d3e867c26050a70"
   license "MIT"
 
   depends_on "golangci-lint"
   depends_on "node"
-  depends_on "ruff"
 
   def install
     system "npm", "install", *std_npm_args(ignore_scripts: false)
