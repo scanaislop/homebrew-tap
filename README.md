@@ -179,7 +179,7 @@ bun add -g aislop                    # Bun
 pipx install aislop                  # Python
 ```
 
-The Homebrew formula installs Ruff and golangci-lint as runtime dependencies, preserving Python and Go lint coverage without a separate tool-setup command.
+The Homebrew formula includes the packaged Python engine and installs golangci-lint for Go lint coverage.
 
 C# and C/C++ receive built-in text and complexity checks without extra tools. Install the optional system toolchains for project-aware and deeper checks:
 
